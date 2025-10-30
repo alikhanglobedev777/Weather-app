@@ -7,7 +7,7 @@ import ThemeToggle from "./components/ThemeToggle";
 import CurrentWeather from "./components/CurrentWeather";
 import Forecast from "./components/Forecast";
 import AirQuality from "./components/AirQuality";
-import "./App.css";
+
 
 export default function App(){
   return (

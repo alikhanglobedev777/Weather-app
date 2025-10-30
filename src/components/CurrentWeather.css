@@ -1,3 +1,18 @@
+/* ✅ Define global colors first */
+:root {
+  --bg-card-dark: rgba(15, 23, 42, 0.6);
+  --bg-card-light: rgba(255, 255, 255, 0.6);
+  --txt-main: #ffffff;
+  --txt-light: #b0c4de;
+}
+
+:root[data-theme="light"] {
+  --bg-card-dark: rgba(255, 255, 255, 0.6);
+  --bg-card-light: rgba(255, 255, 255, 0.6);
+  --txt-main: #0b2536;
+  --txt-light: #1f3b4d;
+}
+
 /* 🌤️ Glass-style Weather Card */
 .cw-card {
   display: flex;
@@ -21,7 +36,7 @@
   background: var(--bg-card-light);
 }
 
-/* Hover effect */
+/* Hover */
 .cw-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
@@ -63,7 +78,7 @@
 .cw-temp {
   font-size: 38px;
   font-weight: 700;
-  color: var(--txt-main, #fff);
+  color: var(--txt-main);
 }
 
 .cw-desc {
@@ -71,6 +86,7 @@
   font-size: 17px;
   font-weight: 500;
   text-transform: capitalize;
+  color: var(--txt-light);
 }
 
 .cw-location {
@@ -79,7 +95,7 @@
   color: var(--txt-light);
 }
 
-/* Stats (humidity & wind) */
+/* Stats */
 .cw-stats {
   display: flex;
   align-items: center;
@@ -94,7 +110,7 @@
   align-items: center;
   gap: 6px;
   font-size: 15px;
-  color: var(--txt-main, #fff);
+  color: var(--txt-main);
 }
 
 .cw-index-row small {
@@ -115,151 +131,22 @@
 
 /* 📱 Responsive */
 @media (max-width: 768px) {
-  .cw-card {
-    padding: 16px 18px;
-    border-radius: 14px;
-    max-width: 90%;
-  }
-
-  .cw-icon svg {
-    width: 54px;
-    height: 54px;
-  }
-
-  .cw-temp {
-    font-size: 32px;
-  }
-
-  .cw-desc {
-    font-size: 15px;
-  }
-
-  .cw-location {
-    font-size: 14px;
-  }
-
-  .cw-stats {
-    gap: 18px;
-  }
-
-  .cw-index-row {
-    font-size: 14px;
-  }
+  .cw-card { padding: 16px 18px; border-radius: 14px; max-width: 90%; }
+  .cw-icon svg { width: 54px; height: 54px; }
+  .cw-temp { font-size: 32px; }
 }
 
 @media (max-width: 520px) {
-  .cw-card {
-    padding: 14px 16px;
-    border-radius: 14px;
-    max-width: 95%;
-  }
-
-  .cw-main {
-    gap: 8px;
-  }
-
-  .cw-icon svg {
-    width: 46px;
-    height: 46px;
-  }
-
-  .cw-temp {
-    font-size: 28px;
-  }
-
-  .cw-desc {
-    font-size: 14px;
-  }
-
-  .cw-location {
-    font-size: 13px;
-  }
-
-  .cw-stats {
-    gap: 16px;
-  }
-
-  .cw-index-row {
-    font-size: 13px;
-  }
+  .cw-card { padding: 14px 16px; max-width: 95%; }
+  .cw-icon svg { width: 46px; height: 46px; }
+  .cw-temp { font-size: 28px; }
 }
 
 @media (max-width: 380px) {
-  .cw-card {
-    padding: 12px 14px;
-    max-width: 98%;
-  }
-
-  .cw-icon svg {
-    width: 40px;
-    height: 40px;
-  }
-
-  .cw-temp {
-    font-size: 25px;
-  }
-
-  .cw-desc {
-    font-size: 13px;
-  }
-
-  .cw-location {
-    font-size: 12.5px;
-  }
-
-  .cw-stats {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .cw-index-row {
-    font-size: 12.5px;
-  }
-}
-/* 🌞 Light mode text color fix */
-:root[data-theme="light"] {
-  --txt-color: #0b2536; /* Dark navy/gray for light backgrounds */
-  --txt-light: #1f3b4d; /* Slightly lighter for secondary labels */
-}
-
-/* Apply these rules to weather card text */
-:root[data-theme="light"] .cw-card {
-  color: var(--txt-color);
-}
-
-/* Make sure secondary texts (like humidity, wind) are darker in light mode */
-:root[data-theme="light"] .cw-index-row small,
-:root[data-theme="light"] .cw-location,
-:root[data-theme="light"] .cw-desc {
-  color: var(--txt-light);
-}
-
-/* Ensure icons also adapt */
-:root[data-theme="light"] .cw-icon svg {
-  filter: brightness(0.3);
-}
-/* ✅ Define full color set for both themes */
-:root {
-  --txt-main: #ffffff;     /* default white text (dark mode) */
-  --txt-light: #b0c4de;    /* lighter secondary text */
-}
-
-:root[data-theme="light"] {
-  --txt-main: #0b2536;     /* dark text for main elements */
-  --txt-light: #1f3b4d;    /* slightly lighter for subtext */
-}
-
-/* ✅ Apply text colors consistently */
-:root[data-theme="light"] .cw-temp,
-:root[data-theme="light"] .cw-index-row,
-:root[data-theme="light"] .cw-desc,
-:root[data-theme="light"] .cw-location {
-  color: var(--txt-main) !important;
-}
-
-/* ✅ Keep secondary text a bit dimmer */
-:root[data-theme="light"] .cw-index-row small {
-  color: var(--txt-light) !important;
+  .cw-card { padding: 12px 14px; max-width: 98%; }
+  .cw-icon svg { width: 40px; height: 40px; }
+  .cw-temp { font-size: 25px; }
+  .cw-stats { flex-direction: column; gap: 10px; }
 }
 
 /* ✅ Icon contrast fix */
