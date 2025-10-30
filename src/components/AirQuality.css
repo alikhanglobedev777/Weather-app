@@ -1,0 +1,170 @@
+/* ===============================
+   🌫️ AIR QUALITY CARD (Glassmorphism)
+   =============================== */
+.aq-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  margin: 12px auto;
+  width: 100%;
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--txt, #fff);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* Hover Effect */
+.aq-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Content Alignment ===== */
+.aq-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+.aq-title {
+  font-weight: 700;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.aq-desc {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* AQI Value Section */
+.aq-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.aq-aqi {
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
+.aq-status {
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+
+/* ===== Row Layout ===== */
+.aq-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ===============================
+   🌞 LIGHT MODE (Fixed Background)
+   =============================== */
+:root[data-theme="light"] .aq-card {
+  background: rgba(255, 255, 255, 0.35); /* light translucent */
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(16px) saturate(180%);
+  color: #0b2536;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Slight hover lift with depth */
+:root[data-theme="light"] .aq-card:hover {
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.18);
+}
+
+/* Adjust text tones for readability */
+:root[data-theme="light"] .aq-title {
+  color: #0b2536;
+}
+
+:root[data-theme="light"] .aq-desc,
+:root[data-theme="light"] .aq-status {
+  color: #1f3b4d;
+  opacity: 0.85;
+}
+
+/* ===============================
+   📱 RESPONSIVE DESIGN
+   =============================== */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .aq-card {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 12px 14px;
+    gap: 12px;
+    max-width: 92%;
+  }
+
+  .aq-title {
+    font-size: 0.95rem;
+  }
+
+  .aq-aqi {
+    font-size: 1.1rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 520px) {
+  .aq-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    padding: 12px 10px;
+    max-width: 90%;
+  }
+
+  .aq-left,
+  .aq-right {
+    align-items: center;
+    text-align: center;
+  }
+
+  .aq-title {
+    font-size: 0.95rem;
+  }
+
+  .aq-aqi {
+    font-size: 1rem;
+  }
+
+  .aq-status {
+    font-size: 0.8rem;
+  }
+}
+
+/* Extra Small */
+@media (max-width: 380px) {
+  .aq-card {
+    padding: 10px 8px;
+    border-radius: 12px;
+    gap: 6px;
+  }
+
+  .aq-title {
+    font-size: 0.9rem;
+  }
+
+  .aq-aqi {
+    font-size: 0.95rem;
+  }
+}

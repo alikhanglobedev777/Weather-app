@@ -1,0 +1,268 @@
+/* 🌤️ Glass-style Weather Card */
+.cw-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card-dark);
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(15px) saturate(180%);
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+:root[data-theme="light"] .cw-card {
+  background: var(--bg-card-light);
+}
+
+/* Hover effect */
+.cw-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* 🌞 / 🌙 Icon + Temp */
+.cw-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+
+.cw-icon svg {
+  transition: transform 0.8s ease, filter 0.5s ease;
+  width: 64px;
+  height: 64px;
+}
+
+.sun-icon {
+  animation: rotateSun 12s linear infinite;
+}
+.moon-icon {
+  animation: pulseMoon 2s ease-in-out infinite alternate;
+}
+
+@keyframes rotateSun {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes pulseMoon {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.8; }
+}
+
+/* Text */
+.cw-temp {
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--txt-main, #fff);
+}
+
+.cw-desc {
+  margin-top: 8px;
+  font-size: 17px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.cw-location {
+  margin-top: 6px;
+  font-size: 15px;
+  color: var(--txt-light);
+}
+
+/* Stats (humidity & wind) */
+.cw-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.cw-index-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  color: var(--txt-main, #fff);
+}
+
+.cw-index-row small {
+  margin-left: 4px;
+  color: var(--txt-light);
+}
+
+/* Loading / Empty */
+.cw-loading,
+.cw-empty {
+  justify-content: center;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  opacity: 0.85;
+  width: 100%;
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .cw-card {
+    padding: 16px 18px;
+    border-radius: 14px;
+    max-width: 90%;
+  }
+
+  .cw-icon svg {
+    width: 54px;
+    height: 54px;
+  }
+
+  .cw-temp {
+    font-size: 32px;
+  }
+
+  .cw-desc {
+    font-size: 15px;
+  }
+
+  .cw-location {
+    font-size: 14px;
+  }
+
+  .cw-stats {
+    gap: 18px;
+  }
+
+  .cw-index-row {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 520px) {
+  .cw-card {
+    padding: 14px 16px;
+    border-radius: 14px;
+    max-width: 95%;
+  }
+
+  .cw-main {
+    gap: 8px;
+  }
+
+  .cw-icon svg {
+    width: 46px;
+    height: 46px;
+  }
+
+  .cw-temp {
+    font-size: 28px;
+  }
+
+  .cw-desc {
+    font-size: 14px;
+  }
+
+  .cw-location {
+    font-size: 13px;
+  }
+
+  .cw-stats {
+    gap: 16px;
+  }
+
+  .cw-index-row {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 380px) {
+  .cw-card {
+    padding: 12px 14px;
+    max-width: 98%;
+  }
+
+  .cw-icon svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .cw-temp {
+    font-size: 25px;
+  }
+
+  .cw-desc {
+    font-size: 13px;
+  }
+
+  .cw-location {
+    font-size: 12.5px;
+  }
+
+  .cw-stats {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cw-index-row {
+    font-size: 12.5px;
+  }
+}
+/* 🌞 Light mode text color fix */
+:root[data-theme="light"] {
+  --txt-color: #0b2536; /* Dark navy/gray for light backgrounds */
+  --txt-light: #1f3b4d; /* Slightly lighter for secondary labels */
+}
+
+/* Apply these rules to weather card text */
+:root[data-theme="light"] .cw-card {
+  color: var(--txt-color);
+}
+
+/* Make sure secondary texts (like humidity, wind) are darker in light mode */
+:root[data-theme="light"] .cw-index-row small,
+:root[data-theme="light"] .cw-location,
+:root[data-theme="light"] .cw-desc {
+  color: var(--txt-light);
+}
+
+/* Ensure icons also adapt */
+:root[data-theme="light"] .cw-icon svg {
+  filter: brightness(0.3);
+}
+/* ✅ Define full color set for both themes */
+:root {
+  --txt-main: #ffffff;     /* default white text (dark mode) */
+  --txt-light: #b0c4de;    /* lighter secondary text */
+}
+
+:root[data-theme="light"] {
+  --txt-main: #0b2536;     /* dark text for main elements */
+  --txt-light: #1f3b4d;    /* slightly lighter for subtext */
+}
+
+/* ✅ Apply text colors consistently */
+:root[data-theme="light"] .cw-temp,
+:root[data-theme="light"] .cw-index-row,
+:root[data-theme="light"] .cw-desc,
+:root[data-theme="light"] .cw-location {
+  color: var(--txt-main) !important;
+}
+
+/* ✅ Keep secondary text a bit dimmer */
+:root[data-theme="light"] .cw-index-row small {
+  color: var(--txt-light) !important;
+}
+
+/* ✅ Icon contrast fix */
+:root[data-theme="light"] .cw-icon svg {
+  filter: brightness(0.2) contrast(1.2);
+}

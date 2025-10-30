@@ -1,0 +1,291 @@
+/* ===============================
+   🌤️ SEARCH BAR STYLES (FINAL RESPONSIVE)
+   =============================== */
+
+/* ===== Light Mode ===== */
+:root[data-theme="light"] .searchbar-input {
+  background: rgba(255, 255, 255, 0.9);
+  color: #0b2536;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="light"] .searchbar-input::placeholder {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+:root[data-theme="light"] .searchbar-btn {
+  background: rgba(255, 255, 255, 0.95);
+  color: #0b2536;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+:root[data-theme="light"] .searchbar-btn:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.03);
+}
+
+/* ===============================
+   🔍 BASE CONTAINER
+   =============================== */
+.searchbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 9999;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+
+/* ===============================
+   ✏️ INPUT FIELD
+   =============================== */
+.searchbar-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: none;
+  outline: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.searchbar-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ===============================
+   🔘 SEARCH BUTTON
+   =============================== */
+.searchbar-btn {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 14px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.searchbar-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(1.03);
+}
+
+/* ===============================
+   📋 SUGGESTIONS LIST
+   =============================== */
+.suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  overflow-y: auto;
+  max-height: 220px;
+  list-style: none;
+  padding: 6px 0;
+  z-index: 10000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.suggestion-item {
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.suggestion-item.active,
+.suggestion-item:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(0px);
+}
+
+.suggestion-main {
+  font-weight: 500;
+}
+
+.suggestion-country {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* Scrollbar styling */
+.suggestions-list::-webkit-scrollbar {
+  width: 6px;
+}
+.suggestions-list::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.35);
+  border-radius: 3px;
+}
+:root[data-theme="light"] .suggestions-list::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+/* ===============================
+   📱 RESPONSIVE DESIGN
+   =============================== */
+@media (max-width: 768px) {
+  .searchbar {
+    max-width: 92%;
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .searchbar-input {
+    font-size: 0.95rem;
+    padding: 8px 12px;
+  }
+
+  .searchbar-btn {
+    font-size: 0.9rem;
+    padding: 8px 11px;
+  }
+}
+
+@media (max-width: 520px) {
+  .searchbar {
+    flex-direction: row;
+    justify-content: center;
+    max-width: 94%;
+    padding: 6px;
+    gap: 5px;
+  }
+
+  .searchbar-input {
+    font-size: 0.9rem;
+    padding: 7px 10px;
+  }
+
+  .searchbar-btn {
+    font-size: 0.85rem;
+    padding: 7px 9px;
+  }
+
+  .suggestions-list {
+    max-height: 180px;
+  }
+}
+
+@media (max-width: 360px) {
+  .searchbar {
+    max-width: 96%;
+    padding: 5px;
+    gap: 4px;
+  }
+
+  .searchbar-input {
+    font-size: 0.85rem;
+    padding: 6px 9px;
+  }
+
+  .searchbar-btn {
+    font-size: 0.8rem;
+    padding: 6px 8px;
+  }
+}
+/* 🌞 Light Mode Fix for Suggestions */
+:root[data-theme="light"] .suggestions-list {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+:root[data-theme="light"] .suggestion-item {
+  color: #0b2536; /* dark navy text for visibility */
+}
+
+:root[data-theme="light"] .suggestion-item:hover,
+:root[data-theme="light"] .suggestion-item.active {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+:root[data-theme="light"] .suggestion-country {
+  color: rgba(0, 0, 0, 0.6);
+}
+/* ===============================
+   ✨ Animated Suggestions (Fade + Slide)
+   =============================== */
+.suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  overflow-y: auto;
+  max-height: 220px;
+  list-style: none;
+  padding: 6px 0;
+  z-index: 10000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: fadeSlideDown 0.35s ease forwards;
+}
+
+@keyframes fadeSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+  60% {
+    opacity: 0.6;
+    transform: translateY(3px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Smooth hover glow */
+.suggestion-item:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.02);
+  transition: all 0.2s ease;
+}
+
+/* ===============================
+   🌞 Light Mode (Readable Text + Subtle Shadows)
+   =============================== */
+:root[data-theme="light"] .suggestions-list {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+:root[data-theme="light"] .suggestion-item {
+  color: #0b2536;
+  transition: all 0.2s ease;
+}
+
+:root[data-theme="light"] .suggestion-item:hover,
+:root[data-theme="light"] .suggestion-item.active {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+:root[data-theme="light"] .suggestion-country {
+  color: rgba(0, 0, 0, 0.6);
+}
