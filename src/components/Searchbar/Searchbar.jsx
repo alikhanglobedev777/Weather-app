@@ -49,6 +49,7 @@ export default function SearchBar() {
     if (!trimmed) return;
 
     await fetchWeatherByCity(trimmed);
+    setQuery("");
     setSuggestions([]);
     setActiveIndex(-1);
   };
