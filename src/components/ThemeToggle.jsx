@@ -1,5 +1,5 @@
-// src/components/ThemeToggle/ThemeToggle.jsx
 import React, { useState } from "react";
+import { MapPin, MoonStar, SunMedium } from "lucide-react";
 import { useTheme } from "../Context/ThemeContext";
 import { useWeather } from "../Context/WeatherContext";
 import "./ThemeToggle.css";
@@ -17,9 +17,9 @@ export default function ThemeToggle() {
 
     setIsLocating(true);
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const { latitude, longitude } = pos.coords;
-        fetchWeatherByCoords(latitude, longitude, "Your Location");
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        await fetchWeatherByCoords(latitude, longitude);
         setIsLocating(false);
       },
       (err) => {
@@ -32,24 +32,18 @@ export default function ThemeToggle() {
 
   return (
     <div className="navbar-actions">
-      {/* 🌙 / ☀️ Theme toggle */}
-      <button
-        className="theme-toggle"
-        onClick={toggle}
-        aria-label="Toggle theme"
-        title="Toggle theme"
-      >
-        {theme === "dark" ? "🌙" : "☀️"}
+      <button className="control-btn" onClick={toggle} aria-label="Toggle theme" title="Toggle theme">
+        {theme === "dark" ? <SunMedium size={18} /> : <MoonStar size={18} />}
       </button>
 
-      {/* 📍 Current Location button */}
       <button
-        className="location-navbar-btn"
+        className="control-btn control-btn-location"
         onClick={handleCurrentLocation}
         disabled={isLocating}
         title="Use current location"
       >
-        {isLocating ? "📶" : "📍"}
+        <MapPin size={18} />
+        <span>{isLocating ? "Locating" : "Current"}</span>
       </button>
     </div>
   );

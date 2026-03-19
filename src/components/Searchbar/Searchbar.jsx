@@ -1,68 +1,127 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { MapPin, Search, X } from "lucide-react";
 import { useWeather } from "../../Context/WeatherContext";
 import Suggestions from "./Suggestion";
 import "./Searchbar.css";
 
 export default function SearchBar() {
-  const { debouncedSuggest, suggestions, setSuggestions, fetchWeatherByCity } = useWeather();
+  const {
+    debouncedSuggest,
+    suggestions,
+    setSuggestions,
+    fetchWeatherByCity,
+    fetchWeatherByCoords,
+    loading,
+  } = useWeather();
 
-  const [q, setQ] = useState("");
+  const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(-1);
-  const inputRef = useRef();
+  const rootRef = useRef(null);
 
   useEffect(() => {
-    return () => setSuggestions([]);
+    const handleClickOutside = (event) => {
+      if (!rootRef.current?.contains(event.target)) {
+        setSuggestions([]);
+        setActiveIndex(-1);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [setSuggestions]);
 
-  const onChange = (e) => {
-    const val = e.target.value;
-    setQ(val);
-    debouncedSuggest(val);
+  const onChange = (event) => {
+    const value = event.target.value;
+    setQuery(value);
+    setActiveIndex(-1);
+    debouncedSuggest(value);
   };
 
-  const handleSelect = (item) => {
-    fetchWeatherByCity(item.name);
-    setQ("");
+  const handleSelect = async (item) => {
+    await fetchWeatherByCoords(item.lat, item.lon);
+    setQuery(`${item.name}${item.state ? `, ${item.state}` : ""}`);
     setSuggestions([]);
     setActiveIndex(-1);
   };
 
-  const handleSearch = () => {
-    if (!q.trim()) return;
-    fetchWeatherByCity(q.trim());
+  const handleSearch = async () => {
+    const trimmed = query.trim();
+    if (!trimmed) return;
+
+    await fetchWeatherByCity(trimmed);
     setSuggestions([]);
     setActiveIndex(-1);
-    setQ("");
   };
 
-  const onKeyDown = (e) => {
-    if (!suggestions.length) return;
-    if (e.key === "ArrowDown")
-      setActiveIndex((i) => Math.min(i + 1, suggestions.length - 1));
-    else if (e.key === "ArrowUp")
-      setActiveIndex((i) => Math.max(i - 1, 0));
-    else if (e.key === "Enter") {
-      e.preventDefault();
-      const sel = activeIndex >= 0 ? suggestions[activeIndex] : null;
-      if (sel) handleSelect(sel);
-      else handleSearch();
+  const handleClear = () => {
+    setQuery("");
+    setSuggestions([]);
+    setActiveIndex(-1);
+  };
+
+  const onKeyDown = (event) => {
+    if (event.key === "ArrowDown" && suggestions.length) {
+      event.preventDefault();
+      setActiveIndex((index) => Math.min(index + 1, suggestions.length - 1));
+      return;
+    }
+
+    if (event.key === "ArrowUp" && suggestions.length) {
+      event.preventDefault();
+      setActiveIndex((index) => Math.max(index - 1, 0));
+      return;
+    }
+
+    if (event.key === "Escape") {
+      setSuggestions([]);
+      setActiveIndex(-1);
+      return;
+    }
+
+    if (event.key === "Enter") {
+      event.preventDefault();
+      const selected = activeIndex >= 0 ? suggestions[activeIndex] : null;
+
+      if (selected) {
+        handleSelect(selected);
+        return;
+      }
+
+      handleSearch();
     }
   };
 
   return (
-    <div className="searchbar">
-      <input
-        ref={inputRef}
-        className="searchbar-input"
-        value={q}
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-        placeholder="Search city (e.g. Karachi, London)..."
-        aria-label="Search city"
-      />
-      <button className="searchbar-btn" onClick={handleSearch}>
-        Search
-      </button>
+    <div className="search-shell" ref={rootRef}>
+      <div className="searchbar">
+        <div className="searchbar-icon">
+          <Search size={18} />
+        </div>
+
+        <input
+          className="searchbar-input"
+          value={query}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+          placeholder="Search city, country, or region"
+          aria-label="Search city"
+        />
+
+        {query ? (
+          <button className="searchbar-clear" type="button" onClick={handleClear} aria-label="Clear search">
+            <X size={16} />
+          </button>
+        ) : null}
+
+        <button className="searchbar-btn" type="button" onClick={handleSearch} disabled={loading}>
+          {loading ? "Loading..." : "Search"}
+        </button>
+      </div>
+
+      <div className="search-hint">
+        <MapPin size={14} />
+        <span>Pick a suggestion for more accurate results.</span>
+      </div>
 
       <Suggestions
         suggestions={suggestions}
@@ -73,19 +132,3 @@ export default function SearchBar() {
     </div>
   );
 }
-const handleVoiceSearch = () => {
-  if (!('webkitSpeechRecognition' in window)) {
-    alert("Voice recognition not supported!");
-    return;
-  }
-
-  const recognition = new window.webkitSpeechRecognition();
-  recognition.lang = "en-US";
-  recognition.start();
-
-  recognition.onresult = (event) => {
-    const query = event.results[0][0].transcript;
-    setQuery(query);
-    fetchWeather(query);
-  };
-};

@@ -1,4 +1,5 @@
 import React from "react";
+import { MapPin } from "lucide-react";
 import "./Searchbar.css";
 
 export default function Suggestions({
@@ -10,22 +11,29 @@ export default function Suggestions({
   if (!suggestions?.length) return null;
 
   return (
-    <ul className="suggestions-list visible">
-      {suggestions.map((s, idx) => (
+    <ul className="suggestions-list" role="listbox">
+      {suggestions.map((suggestion, index) => (
         <li
-          key={`${s.lat}-${s.lon}-${idx}`}
-          className={`suggestion-item ${idx === activeIndex ? "active" : ""}`}
-          onMouseEnter={() => setActiveIndex(idx)}
-          onMouseDown={(e) => {
-            e.preventDefault();
-            onSelect(s);
+          key={`${suggestion.lat}-${suggestion.lon}-${index}`}
+          className={`suggestion-item ${index === activeIndex ? "active" : ""}`}
+          onMouseEnter={() => setActiveIndex(index)}
+          onMouseDown={(event) => {
+            event.preventDefault();
+            onSelect(suggestion);
           }}
+          role="option"
+          aria-selected={index === activeIndex}
         >
-          <span className="suggestion-main">
-            {s.name}
-            {s.state ? `, ${s.state}` : ""}
+          <div className="suggestion-copy">
+            <span className="suggestion-main">{suggestion.name}</span>
+            <span className="suggestion-meta">
+              {[suggestion.state, suggestion.country].filter(Boolean).join(", ")}
+            </span>
+          </div>
+
+          <span className="suggestion-pin">
+            <MapPin size={14} />
           </span>
-          <span className="suggestion-country">{s.country}</span>
         </li>
       ))}
     </ul>

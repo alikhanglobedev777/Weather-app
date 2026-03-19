@@ -1,27 +1,33 @@
 import React, {
   createContext,
-  useContext,
-  useState,
-  useEffect,
   useCallback,
+  useContext,
+  useEffect,
   useRef,
+  useState,
 } from "react";
 import {
-  fetchGeoSuggestions,
+  fetchAirQuality,
   fetchCurrentByCity,
   fetchCurrentByCoords,
-  fetchAirQuality,
+  fetchGeoSuggestions,
+  fetchSevenDayForecast,
 } from "../utils/weatherApi";
 
 const WeatherContext = createContext();
+
 export const useWeather = () => useContext(WeatherContext);
 
 function useDebouncedCallback(fn, delay = 300) {
   const timeoutRef = useRef(null);
-  return (...args) => {
-    clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => fn(...args), delay);
-  };
+
+  return useCallback(
+    (...args) => {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => fn(...args), delay);
+    },
+    [delay, fn]
+  );
 }
 
 export function WeatherProvider({ children }) {
@@ -29,23 +35,26 @@ export function WeatherProvider({ children }) {
     JSON.parse(localStorage.getItem("wa_last_location") || "null")
   );
   const [current, setCurrent] = useState(null);
+  const [forecast, setForecast] = useState([]);
   const [air, setAir] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
 
-  // ✅ REAL fixed: fetch by coordinates from OpenWeather directly
   const fetchWeatherByCoords = useCallback(async (lat, lon) => {
     try {
       setLoading(true);
       setError(null);
 
-      const weather = await fetchCurrentByCoords(lat, lon);
-      const airRes = await fetchAirQuality(lat, lon);
-console.log("Weather data response:", weather);
+      const [weather, airRes, forecastRes] = await Promise.all([
+        fetchCurrentByCoords(lat, lon),
+        fetchAirQuality(lat, lon),
+        fetchSevenDayForecast(lat, lon),
+      ]);
 
       setCurrent(weather);
       setAir(airRes?.list?.[0] ?? null);
+      setForecast(forecastRes);
 
       const locObj = {
         name: weather.name,
@@ -53,17 +62,18 @@ console.log("Weather data response:", weather);
         lat,
         lon,
       };
+
       setLocation(locObj);
       localStorage.setItem("wa_last_location", JSON.stringify(locObj));
     } catch (err) {
       console.error(err);
-      setError("Unable to load location weather");
+      setError("Unable to load weather for this location.");
+      setForecast([]);
     } finally {
       setLoading(false);
     }
   }, []);
 
-  // ✅ Search button behavior fixed
   const fetchWeatherByCity = useCallback(
     async (city) => {
       if (!city) return;
@@ -74,48 +84,63 @@ console.log("Weather data response:", weather);
 
         const weather = await fetchCurrentByCity(city);
         const { lat, lon } = weather.coord;
-
         await fetchWeatherByCoords(lat, lon);
       } catch (err) {
         console.error(err);
-        setError("City not found");
-      } finally {
+        setError("City not found. Try a more specific search.");
         setLoading(false);
       }
     },
     [fetchWeatherByCoords]
   );
 
-  const rawSuggest = useCallback(async (q) => {
-    if (!q || q.length < 2) return setSuggestions([]);
+  const rawSuggest = useCallback(async (query) => {
+    if (!query || query.trim().length < 2) {
+      setSuggestions([]);
+      return;
+    }
 
-    const results = await fetchGeoSuggestions(q, 6);
+    const results = await fetchGeoSuggestions(query.trim(), 7);
+    const uniqueResults = results?.filter(
+      (item, index, arr) =>
+        arr.findIndex(
+          (candidate) =>
+            candidate.name === item.name &&
+            candidate.country === item.country &&
+            candidate.state === item.state
+        ) === index
+    );
 
     setSuggestions(
-      results?.map((r) => ({
-        name: r.name,
-        state: r.state || "",
-        country: r.country || "",
-        lat: r.lat,
-        lon: r.lon,
+      uniqueResults?.map((item) => ({
+        name: item.name,
+        state: item.state || "",
+        country: item.country || "",
+        lat: item.lat,
+        lon: item.lon,
       })) ?? []
     );
   }, []);
 
-  const debouncedSuggest = useDebouncedCallback(rawSuggest, 300);
+  const debouncedSuggest = useDebouncedCallback(rawSuggest, 260);
 
   useEffect(() => {
-    const last = JSON.parse(localStorage.getItem("wa_last_location"));
+    const last = JSON.parse(localStorage.getItem("wa_last_location") || "null");
+
     if (last?.lat && last?.lon) {
       fetchWeatherByCoords(last.lat, last.lon);
+      return;
     }
-  }, [fetchWeatherByCoords]);
+
+    fetchWeatherByCity("Karachi");
+  }, [fetchWeatherByCity, fetchWeatherByCoords]);
 
   return (
     <WeatherContext.Provider
       value={{
         location,
         current,
+        forecast,
         air,
         loading,
         error,

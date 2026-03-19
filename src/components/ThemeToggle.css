@@ -1,60 +1,45 @@
-/* 🌙☀️ + 📍 Container beside navbar title */
 .navbar-actions {
   display: flex;
   align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.control-btn {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  gap: 12px;
-  margin-left: auto;
-}
-
-/* Theme toggle button */
-.theme-toggle {
-  border: none;
-  background: transparent;
-  font-size: 22px;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--surface-border);
+  border-radius: 14px;
+  background: var(--surface-strong);
+  color: var(--text);
   cursor: pointer;
-  padding: 6px;
-  border-radius: 8px;
-  transition: transform 0.15s ease, background 0.3s ease;
-  color: var(--txt-color, #fff);
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 
-.theme-toggle:hover {
-  transform: scale(1.1);
-  background: rgba(255, 255, 255, 0.15);
+.control-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
 }
 
-.theme-toggle:active {
-  transform: scale(0.95);
+.control-btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
 }
 
-/* 📍 Location button */
-.location-navbar-btn {
-  border: none;
-  background: rgba(255, 255, 255, 0.15);
-  font-size: 18px;
-  cursor: pointer;
-  padding: 6px 10px;
-  border-radius: 8px;
-  color: var(--txt-color, #fff);
-  backdrop-filter: blur(8px);
-  transition: all 0.25s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+.control-btn-location {
+  font-weight: 600;
 }
 
-.location-navbar-btn:hover {
-  transform: scale(1.05);
-  background: rgba(255, 255, 255, 0.25);
-}
+@media (max-width: 640px) {
+  .navbar-actions {
+    width: 100%;
+  }
 
-.location-navbar-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  .control-btn {
+    flex: 1 1 0;
+    justify-content: center;
+  }
 }
-
-/* ☀️ Light mode adjustments */
-:root[data-theme="light"] .theme-toggle {
-  color: #0b2536;
-}
-
-:root[data-theme="light"] .locatio

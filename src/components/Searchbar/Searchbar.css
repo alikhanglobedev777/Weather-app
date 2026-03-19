@@ -1,291 +1,156 @@
-/* ===============================
-   🌤️ SEARCH BAR STYLES (FINAL RESPONSIVE)
-   =============================== */
-
-/* ===== Light Mode ===== */
-:root[data-theme="light"] .searchbar-input {
-  background: rgba(255, 255, 255, 0.9);
-  color: #0b2536;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+.search-shell {
+  position: relative;
+  z-index: 20;
+  width: min(100%, 34rem);
+  margin: 0 auto;
+  justify-self: center;
+  min-width: 0;
 }
 
-:root[data-theme="light"] .searchbar-input::placeholder {
-  color: rgba(0, 0, 0, 0.55);
-}
-
-:root[data-theme="light"] .searchbar-btn {
-  background: rgba(255, 255, 255, 0.95);
-  color: #0b2536;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
-}
-
-:root[data-theme="light"] .searchbar-btn:hover {
-  background: rgba(255, 255, 255, 1);
-  transform: scale(1.03);
-}
-
-/* ===============================
-   🔍 BASE CONTAINER
-   =============================== */
 .searchbar {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 18px;
+  background: var(--surface-strong);
+  border: 1px solid var(--surface-border);
+}
+
+.searchbar-icon,
+.searchbar-clear {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 9999;
-  padding: 8px;
-  box-sizing: border-box;
+  color: var(--text-muted);
 }
 
-
-/* ===============================
-   ✏️ INPUT FIELD
-   =============================== */
 .searchbar-input {
-  flex: 1;
-  padding: 10px 14px;
-  border: none;
-  outline: none;
-  border-radius: 12px;
-  font-size: 1rem;
-  backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.95rem;
 }
 
 .searchbar-input::placeholder {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-muted);
 }
 
-/* ===============================
-   🔘 SEARCH BUTTON
-   =============================== */
+.searchbar-clear,
 .searchbar-btn {
-  background: rgba(255, 255, 255, 0.25);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 9px 14px;
-  font-size: 0.95rem;
+  border: 0;
   cursor: pointer;
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-  white-space: nowrap;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.searchbar-btn:hover {
-  background: rgba(255, 255, 255, 0.35);
-  transform: scale(1.03);
+.searchbar-clear {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: transparent;
 }
 
-/* ===============================
-   📋 SUGGESTIONS LIST
-   =============================== */
+.searchbar-btn {
+  padding: 10px 16px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #04101d;
+  font-weight: 700;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.searchbar-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.searchbar-btn:disabled {
+  opacity: 0.72;
+  cursor: wait;
+}
+
+.search-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+}
+
 .suggestions-list {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 12px);
   left: 0;
   right: 0;
-  margin-top: 4px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(12px);
-  border-radius: 12px;
-  overflow-y: auto;
-  max-height: 220px;
+  z-index: 100;
+  margin: 0;
+  padding: 8px;
   list-style: none;
-  padding: 6px 0;
-  z-index: 10000;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border-radius: 22px;
+  background: var(--surface-strong);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow);
 }
 
 .suggestion-item {
-  padding: 8px 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: #fff;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.suggestion-item.active,
-.suggestion-item:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: translateY(0px);
+.suggestion-item:hover,
+.suggestion-item.active {
+  background: rgba(125, 211, 252, 0.12);
+  transform: translateX(2px);
+}
+
+.suggestion-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .suggestion-main {
-  font-weight: 500;
+  font-weight: 600;
 }
 
-.suggestion-country {
-  font-size: 0.85rem;
-  opacity: 0.8;
+.suggestion-meta,
+.suggestion-pin {
+  color: var(--text-muted);
+  font-size: 0.88rem;
 }
 
-/* Scrollbar styling */
-.suggestions-list::-webkit-scrollbar {
-  width: 6px;
-}
-.suggestions-list::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.35);
-  border-radius: 3px;
-}
-:root[data-theme="light"] .suggestions-list::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.15);
-}
-
-/* ===============================
-   📱 RESPONSIVE DESIGN
-   =============================== */
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .searchbar {
-    max-width: 92%;
-    gap: 6px;
-    padding: 6px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
   }
 
-  .searchbar-input {
-    font-size: 0.95rem;
-    padding: 8px 12px;
-  }
-
-  .searchbar-btn {
-    font-size: 0.9rem;
-    padding: 8px 11px;
-  }
-}
-
-@media (max-width: 520px) {
-  .searchbar {
-    flex-direction: row;
-    justify-content: center;
-    max-width: 94%;
-    padding: 6px;
-    gap: 5px;
-  }
-
-  .searchbar-input {
-    font-size: 0.9rem;
-    padding: 7px 10px;
-  }
-
-  .searchbar-btn {
-    font-size: 0.85rem;
-    padding: 7px 9px;
+  .search-hint {
+    align-items: flex-start;
+    line-height: 1.4;
   }
 
   .suggestions-list {
-    max-height: 180px;
-  }
-}
-
-@media (max-width: 360px) {
-  .searchbar {
-    max-width: 96%;
-    padding: 5px;
-    gap: 4px;
+    top: calc(100% + 10px);
+    padding: 6px;
+    border-radius: 18px;
   }
 
-  .searchbar-input {
-    font-size: 0.85rem;
-    padding: 6px 9px;
+  .suggestion-item {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .searchbar-btn {
-    font-size: 0.8rem;
-    padding: 6px 8px;
+    grid-column: 1 / -1;
+    width: 100%;
   }
-}
-/* 🌞 Light Mode Fix for Suggestions */
-:root[data-theme="light"] .suggestions-list {
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-:root[data-theme="light"] .suggestion-item {
-  color: #0b2536; /* dark navy text for visibility */
-}
-
-:root[data-theme="light"] .suggestion-item:hover,
-:root[data-theme="light"] .suggestion-item.active {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-:root[data-theme="light"] .suggestion-country {
-  color: rgba(0, 0, 0, 0.6);
-}
-/* ===============================
-   ✨ Animated Suggestions (Fade + Slide)
-   =============================== */
-.suggestions-list {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  margin-top: 4px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(12px);
-  border-radius: 12px;
-  overflow-y: auto;
-  max-height: 220px;
-  list-style: none;
-  padding: 6px 0;
-  z-index: 10000;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-
-  opacity: 0;
-  transform: translateY(-10px);
-  animation: fadeSlideDown 0.35s ease forwards;
-}
-
-@keyframes fadeSlideDown {
-  0% {
-    opacity: 0;
-    transform: translateY(-10px) scale(0.98);
-  }
-  60% {
-    opacity: 0.6;
-    transform: translateY(3px) scale(1.02);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Smooth hover glow */
-.suggestion-item:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: scale(1.02);
-  transition: all 0.2s ease;
-}
-
-/* ===============================
-   🌞 Light Mode (Readable Text + Subtle Shadows)
-   =============================== */
-:root[data-theme="light"] .suggestions-list {
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-:root[data-theme="light"] .suggestion-item {
-  color: #0b2536;
-  transition: all 0.2s ease;
-}
-
-:root[data-theme="light"] .suggestion-item:hover,
-:root[data-theme="light"] .suggestion-item.active {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-:root[data-theme="light"] .suggestion-country {
-  color: rgba(0, 0, 0, 0.6);
 }

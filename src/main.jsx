@@ -2,12 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./App.css";
-import { WeatherProvider } from "./Context/WeatherContext.jsx"; // ✅ correct path!
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <WeatherProvider>
-      <App />
-    </WeatherProvider>
+    <App />
   </React.StrictMode>
 );
