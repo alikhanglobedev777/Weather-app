@@ -6,10 +6,16 @@
   --surface-border: rgba(255, 255, 255, 0.12);
   --text: #f4f8ff;
   --text-muted: #9cb0cf;
+  --text-soft: #d7e3f8;
   --accent: #7dd3fc;
   --accent-strong: #38bdf8;
   --accent-warm: #fbbf24;
   --shadow: 0 24px 60px rgba(1, 7, 18, 0.38);
+  --panel-fill: rgba(255, 255, 255, 0.06);
+  --panel-fill-strong: rgba(255, 255, 255, 0.08);
+  --hero-graphic-border: rgba(255, 255, 255, 0.08);
+  --cloud-fill: rgba(255, 255, 255, 0.2);
+  --status-text: #ffd1de;
   --aq-good: #34d399;
   --aq-fair: #84cc16;
   --aq-moderate: #f59e0b;
@@ -24,10 +30,16 @@
   --surface-border: rgba(15, 23, 42, 0.08);
   --text: #12243f;
   --text-muted: #5f7393;
+  --text-soft: #27466d;
   --accent: #0284c7;
   --accent-strong: #0369a1;
   --accent-warm: #f59e0b;
   --shadow: 0 24px 60px rgba(103, 132, 179, 0.18);
+  --panel-fill: rgba(191, 219, 254, 0.28);
+  --panel-fill-strong: rgba(148, 163, 184, 0.22);
+  --hero-graphic-border: rgba(2, 132, 199, 0.12);
+  --cloud-fill: rgba(255, 255, 255, 0.72);
+  --status-text: #9d174d;
 }
 
 * {
@@ -208,7 +220,7 @@ input {
   min-height: 96px;
   border-radius: 20px;
   background: linear-gradient(180deg, rgba(125, 211, 252, 0.14), rgba(255, 255, 255, 0.03));
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--hero-graphic-border);
   overflow: hidden;
 }
 
@@ -226,7 +238,7 @@ input {
 .hero-cloud {
   position: absolute;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--cloud-fill);
   backdrop-filter: blur(8px);
 }
 
@@ -293,8 +305,8 @@ input {
   gap: 4px;
   padding: 10px 12px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--panel-fill);
+  border: 1px solid var(--panel-fill-strong);
 }
 
 .hero-metric span {
@@ -306,6 +318,7 @@ input {
 
 .hero-metric strong {
   font-size: 1rem;
+  color: var(--text-soft);
 }
 
 .status-banner {
@@ -313,7 +326,7 @@ input {
   padding: 14px 18px;
   border-radius: 18px;
   background: rgba(190, 24, 93, 0.14);
-  color: #ffd1de;
+  color: var(--status-text);
 }
 
 .content-grid {

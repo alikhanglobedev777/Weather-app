@@ -15,8 +15,8 @@
   gap: 8px;
   padding: 16px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--panel-fill);
+  border: 1px solid var(--panel-fill-strong);
 }
 
 .air-metric span {
@@ -29,6 +29,7 @@
 .air-metric strong {
   font-size: 1rem;
   overflow-wrap: anywhere;
+  color: var(--text-soft);
 }
 
 @media (max-width: 640px) {

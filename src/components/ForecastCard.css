@@ -5,8 +5,8 @@
   min-height: 190px;
   padding: 16px;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--panel-fill);
+  border: 1px solid var(--panel-fill-strong);
 }
 
 .fc-top {
@@ -27,6 +27,7 @@
 .fc-temp {
   font-size: 1.8rem;
   font-weight: 800;
+  color: var(--text-soft);
 }
 
 .fc-low,
